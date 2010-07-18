@@ -2,16 +2,15 @@
    jQuery UI datepicker 
 */
 $.editable.addInputType('datepicker', {
-  element: function(settings, original) {
-      var input = $('<input />');
-
-      input.datepicker({
-        onSelect: function(dateText, inst) {
-          $(this).parents("form").submit();
-        }
-      });
-      
-      $(this).append(input);
-      return (input);
-  }
+    element: function(settings, original) {
+        var $form = this;
+        return $('<input />').datepicker({
+            onSelect: function(dateText, inst) {
+                $form.submit();
+            }
+        }).appendTo($form);
+    },
+    reset: function(settings, original) {
+        return !$.datepicker._datepickerShowing && original.reset(this);
+    }
 });
